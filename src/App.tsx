@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { SignupinPage } from './components/ui/SignupinPage'
 import { RecoilRoot } from 'recoil'
 import { HomePage } from './components/ui/HomePage'
@@ -14,6 +14,7 @@ function App() {
         <RecoilRoot>
             <BrowserRouter>
                 <Routes>
+                    <Route path="/" element={<Navigate to="/signin" />} />
                     <Route path="signup" element={<SignupinPage page="Sign up" />} />
                     <Route path="signin" element={<SignupinPage page="Sign in" />} />
 
