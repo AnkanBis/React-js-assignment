@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { todoAtom } from "@/store/atoms/todo";
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import {
     Select,
     SelectContent,
@@ -49,7 +49,7 @@ const CardBox = ({ setShowCard }: { setShowCard: (arg1: boolean) => void }) => {
         description: "",
         priority: "1",
     });
-    const [todoList, setTodoList] = useRecoilState(todoAtom);
+    const setTodoList = useSetRecoilState(todoAtom);
 
     function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target;
@@ -67,7 +67,7 @@ const CardBox = ({ setShowCard }: { setShowCard: (arg1: boolean) => void }) => {
 
         setTodoList((prevList) => {
             const updatedList = [...prevList, newTask];
-            localStorage.setItem("todos", JSON.stringify(updatedList));  
+            localStorage.setItem("todos", JSON.stringify(updatedList));
             return updatedList;
         });
 
