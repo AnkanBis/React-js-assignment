@@ -1,12 +1,18 @@
 import { authAtom } from "@/store/atoms/auth";
 import { todoAtom } from "@/store/atoms/todo"
-import { useRecoilValue } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 
 export const InboxPage = () => {
-    const todoList = useRecoilValue(todoAtom);
+    const [todoList, setTodoList] = useRecoilState(todoAtom);
     const user = useRecoilValue(authAtom);
 
-    const userTodos = todoList.filter(task => task.userEmail === user?.email);
+    const userTodos = todoList.filter(task => task.userEmail === user?.email && !task.status);
+
+    function markAsDone(id: string) {
+        setTodoList((prevTodos) => (
+            prevTodos.map(todo => todo.id === id ? {...todo, status: true} : todo)
+        ))
+    }
 
     return (
         <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-white p-4 rounded-lg shadow-lg w-[600px] max-w-xl">
@@ -23,7 +29,7 @@ export const InboxPage = () => {
                                 <div className="text-2xl text-gray-700">{item.title}</div>
                                 <div className="text-md text-black">{item.description}</div>
                             </div>
-                            <button className="text-green-500">✔</button>
+                            <button onClick={() => markAsDone(item.id)} className="text-green-500">✔</button>
                         </div>
                     </div>
                 ))}

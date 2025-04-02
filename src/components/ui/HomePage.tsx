@@ -37,16 +37,20 @@ export const HomePage = () => {
 }
 
 interface Task {
+    id: string;
     title: string;
     description: string;
+    status: boolean;
     priority: string;
 }
 
 const CardBox = ({ setShowCard }: { setShowCard: (arg1: boolean) => void }) => {
 
     const [inputValue, setInputValue] = useState<Task>({
+        id: "",
         title: "",
         description: "",
+        status: false,
         priority: "1",
     });
     const setTodoList = useSetRecoilState(todoAtom);
@@ -62,7 +66,14 @@ const CardBox = ({ setShowCard }: { setShowCard: (arg1: boolean) => void }) => {
     function handleAddTask() {
         const user = JSON.parse(localStorage.getItem("user") || "null");
         if (!user) return;
-        const newTask = { ...inputValue, userEmail: user.email }
+        const newTask = {
+            id: crypto.randomUUID(),
+            title: inputValue.title,
+            description: inputValue.description,
+            status: false,
+            priority: inputValue.priority,
+            userEmail: user.email,
+        }
 
 
         setTodoList((prevList) => {
@@ -71,7 +82,7 @@ const CardBox = ({ setShowCard }: { setShowCard: (arg1: boolean) => void }) => {
             return updatedList;
         });
 
-        setInputValue({ title: "", description: "", priority: "1" });
+        setInputValue({ id: "", title: "", description: "", priority: "1", status: false });
 
         setShowCard(false)
 

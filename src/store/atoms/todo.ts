@@ -5,9 +5,11 @@ const { persistAtom } = recoilPersist();
 
 
 interface Task {
+    id: string;
     title: string;
     description: string;
     priority: string;
+    status: boolean;
     userEmail: string
 }
 
